@@ -1,23 +1,24 @@
 import mongoose from "mongoose";
 
-let connectionPromise: Promise<typeof mongoose> | null = null;
+let connectionPromise: Promise<typeof mongoose> | undefined;
 
 export const dbConnection = async () => {
-    const connectionString = process.env.DB_CNN;
-    if (!connectionString) {
-        throw new Error("The DB_CNN environment variable is not configured.");
-    }
+    if (mongoose.connection.readyState === 1) return;
 
-    if (mongoose.connection.readyState === 1) {
-        return mongoose;
+    if (!connectionPromise) {
+        connectionPromise = mongoose
+            .connect(process.env.DB_CNN as string)
+            .catch((error) => {
+                connectionPromise = undefined;
+                throw error;
+            });
     }
 
     try {
-        connectionPromise ??= mongoose.connect(connectionString);
         await connectionPromise;
-        return mongoose;
+        console.log("Connected to DB!");
     } catch (error) {
-        connectionPromise = null;
-        throw new Error("DB is not working!", { cause: error });
+        console.log(error);
+        throw new Error("DB is not working!");
     }
 };

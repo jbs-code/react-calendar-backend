@@ -3,31 +3,31 @@ import { dbConnection } from "./database/config";
 import cors from "cors";
 import { authRouter, eventsRouter } from "./routes";
 
-//Create server
 const app = express();
-const port = Number(process.env.PORT) || 3000;
 
-//middlewares
 app.use(cors());
-app.use(express.static("public"));
+if (!process.env.VERCEL) {
+    app.use(express.static("public"));
+}
 app.use(express.json());
-app.use("/api", async (_req, _res, next) => {
+
+app.use("/api", async (_req, res, next) => {
     try {
         await dbConnection();
         next();
-    } catch (error) {
-        next(error);
+    } catch {
+        res.status(503).json({ ok: false, msg: "Database connection failed" });
     }
 });
 
-//routes
 app.use("/api/auth", authRouter);
 app.use("/api/events", eventsRouter);
 
-if (process.env.VERCEL !== "1") {
+export default app;
+
+if (!process.env.VERCEL) {
+    const port = Number(process.env.PORT) || 4000;
     app.listen(port, () => {
         console.log(`Server running on port ${port}`);
     });
 }
-
-export default app;

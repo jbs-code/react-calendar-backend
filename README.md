@@ -1,39 +1,20 @@
-# React-Calendar-Backend
+# React Calendar Backend
 
-To implement environment variables:
+API de Express con TypeScript, Bun y MongoDB.
 
-- Copy ***.env.template*** and rename to ***.env***
-- Implement variables
-    - Change connection chain from Mongo Atlas with your own data: user, password and database.
+## Desarrollo local
 
-To install dependencies:
+1. Copia `.env.template` como `.env` y configura `PORT`, `DB_CNN` y `JWT_SECRET_SEED`.
+2. Instala las dependencias con `bun install`.
+3. Inicia el servidor con `bun run dev`.
 
-```bash
-bun install
-```
+## Despliegue en Vercel
 
-To run:
+Vercel detecta la aplicación Express exportada desde `index.ts`. `bun.lock` permite que Vercel use Bun para instalar las dependencias; las funciones se ejecutan con el runtime Node.js predeterminado.
 
-```bash
-bun run dev
-```
+1. Importa este repositorio como proyecto en Vercel y deja el directorio raíz del proyecto en la carpeta que contiene este `package.json`.
+2. En **Settings → Environment Variables**, crea `DB_CNN` y `JWT_SECRET_SEED` para Production y, si corresponde, Preview/Development. No subas `.env` al repositorio.
+3. En MongoDB Atlas, permite las conexiones entrantes desde Vercel (por ejemplo, `0.0.0.0/0` si no tienes una estrategia de allowlist de IP) y usa credenciales con privilegios mínimos.
+4. Despliega desde Vercel o con `vercel --prod`.
 
-## Deploy on Vercel
-
-Import this repository as a Vercel project and keep the project root at this
-directory. Vercel detects the Express app from `index.ts`; no build command is
-required.
-
-Add these environment variables in **Project Settings → Environment Variables**
-for Production, Preview, and Development as needed:
-
-- `DB_CNN`: MongoDB Atlas connection string.
-- `JWT_SECRET_SEED`: a long, random secret used to sign JWTs.
-
-`PORT` is only needed for local development; Vercel manages the port itself.
-Ensure your MongoDB Atlas network access settings allow connections from your
-Vercel deployment. For production, prefer Vercel Static IPs where available;
-otherwise, follow Atlas's guidance for serverless deployments and use a
-dedicated database user with a strong password.
-
-This project was created using `bun init` in bun v1.4.2. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+Los archivos de `public/` se sirven como contenido estático de Vercel; Express solo sirve esa carpeta durante el desarrollo local. Las rutas de la API mantienen sus prefijos `/api/auth` y `/api/events`.
