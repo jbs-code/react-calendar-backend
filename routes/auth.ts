@@ -1,7 +1,7 @@
 import { check } from "express-validator";
-import { crearUsuario, loginUsuario, revalidarToken } from "../controllers";
+import { crearUsuario, loginUsuario, revalidarToken } from "../controllers/index.js";
 import { Router } from "express";
-import { validarJWT, validateFields } from "../middlewares";
+import { validarJWT, validateFields } from "../middlewares/index.js";
 
 export const authRouter = Router();
 

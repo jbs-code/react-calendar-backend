@@ -1,2 +1,2 @@
-export * from './Event';
-export * from './User';
+export * from './Event.js';
+export * from './User.js';

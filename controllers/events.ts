@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { Event } from "../models";
+import { Event } from "../models/index.js";
 import { Types } from "mongoose";
 
 export const getEvents = async (req: Request, res: Response) => {

@@ -4,10 +4,10 @@ import {
     deleteEvent,
     getEvents,
     updateEvent,
-} from "../controllers";
-import { validarJWT, validateFields } from "../middlewares";
+} from "../controllers/index.js";
+import { validarJWT, validateFields } from "../middlewares/index.js";
 import { check } from "express-validator";
-import { isDate } from "../helpers";
+import { isDate } from "../helpers/index.js";
 
 export const eventsRouter = Router();
 

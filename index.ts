@@ -1,7 +1,7 @@
 import express from "express";
-import { dbConnection } from "./database/config";
+import { dbConnection } from "./database/config.js";
 import cors from "cors";
-import { authRouter, eventsRouter } from "./routes";
+import { authRouter, eventsRouter } from "./routes/index.js";
 
 const app = express();
 

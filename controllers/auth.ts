@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
-import { User } from "../models";
+import { User } from "../models/index.js";
 import bcrypt from "bcryptjs";
-import { generateToken } from "../helpers";
+import { generateToken } from "../helpers/index.js";
 
 export const crearUsuario = async (req: Request, res: Response) => {
     const { email, password } = req.body;
