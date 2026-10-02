@@ -11,7 +11,7 @@ export const crearUsuario = async (req: Request, res: Response) => {
         if (user) {
             return res.status(400).json({
                 ok: false,
-                msn: `User with email ${email} already exists`,
+                msg: `User with email ${email} already exists`,
             });
         }
 
@@ -97,6 +97,8 @@ export const revalidarToken = async (req: Request, res: Response) => {
     res.json({
         ok: true,
         msg: "renew",
+        uid, 
+        name,
         token
     });
 };
